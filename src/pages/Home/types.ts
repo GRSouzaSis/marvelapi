@@ -1,3 +1,8 @@
+export interface PaginationHome{
+  offset: number;
+  check: boolean;
+}
+
 export interface Url {
   type: string;
   url: string;
