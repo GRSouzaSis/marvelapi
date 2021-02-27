@@ -1,3 +1,4 @@
+import { useNavigation } from '@react-navigation/native';
 import React, { useState, useEffect } from 'react';
 import {
   Image,
@@ -26,9 +27,10 @@ const Home: React.FC = () => {
   const [limit, setLimit] = useState(4);
   const [page, setPage] = useState(0);
 
-  // const navigation = useNavigate()
-  let sliceInit = 0;
-  let sliceFim = 3;
+  const navigate = useNavigation();
+  
+  let sliceInit = 2;
+  let sliceFim = 5;
 
   async function loadHeros(pageNumber: number) {
     try {
@@ -193,7 +195,7 @@ const Home: React.FC = () => {
             onRefresh={refreshList}
             renderItem={({ item }) => (
               <TouchableOpacity
-                onPress={() => { ()=>{}}}
+                onPress={() => { navigate.navigate('SuperTrunfo', { id: item.id })}}
                 key={item.id}
                 style={{
                   flexDirection: 'row',
