@@ -1,4 +1,5 @@
-import styled from 'styled-components/native';
+import styled from "styled-components/native"
+
 import palette from '../../theme/palette';
 
 export const Container = styled.View`
