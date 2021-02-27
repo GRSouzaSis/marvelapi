@@ -6,7 +6,8 @@ import {
   FlatList,
   TextInput,
   TouchableOpacity,
-  ActivityIndicator
+  ActivityIndicator,
+  Keyboard
 } from 'react-native';
 import api from '../../services/api';
 import palette from '../../theme/palette';
@@ -16,6 +17,9 @@ const Home: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [loadingMore, setLoadingMore] = useState(false);
   const [heros, setHeros] = useState<ResultsDTO[]>([]);
+  const [searchHero, setSearchHero] = useState<ResultsDTO[]>([]);
+  const [search, setSearch] = useState('');
+  const [page, setPage] = useState(0);
   const [pages, setPages] = useState([
     {
       num: 1,
@@ -30,21 +34,52 @@ const Home: React.FC = () => {
       check: false,
     },
   ])
+  // const newPage = reset ? 1 : page + 1;
+  const params = {
+    limit: 4,
+    offset: 10,
+    name: '',
+  }
 
   useEffect(() => {
     async function loadHeros() {
-      try {
-        const response = await fetch('http://gateway.marvel.com/v1/public/characters?ts=1&apikey=1bfb49ed278e2c63a57469b936f3ef01&hash=e3a42df4cd74cbf5a3fcb85dd58e6f8b');                                       
+      try {        
+        setLoading(true);
+        const response = await api.get('/characters');
+        const data = await response.data.data.results;
+        setHeros(data);
+        setSearchHero(data);
         
-        const { data } = await response.json();
-        setHeros(data.results); 
       } catch (error) {
         console.log(error)
       }
+      setLoading(false);
     }
     loadHeros();
+   
   }, [])
- 
+
+  async function searchHeros() {
+    try {   
+      Keyboard.dismiss();  
+      setLoading(true);      
+      if(search){             
+        const response = await api.get(`/characters?name=${search}`);
+        const data = await response.data.data.results;
+        if(!!data){
+          setSearchHero(data);
+        }
+      }
+      else{
+        setSearchHero(heros)
+      }
+    } catch (error) {
+      console.log(error)
+    }
+   setLoading(false);
+  }
+  
+
   return (<>
     <View style={{ backgroundColor: palette.white, paddingBottom: 12, paddingTop: 12, paddingLeft: 32 }}>
       <View style={{}} >
@@ -90,7 +125,18 @@ const Home: React.FC = () => {
           }}>
             Nome do Personagem
           </Text>
-          <TextInput placeholder="Nome" style={{ borderWidth: 1, borderRadius: 8 }} />
+          <TextInput
+            onChangeText={setSearch}
+            value={search}
+            placeholder="Nome do personagem"            
+            maxLength={100}
+            returnKeyType="search"
+            onEndEditing={searchHeros}
+            style={{ 
+              borderWidth: 1, 
+              borderRadius: 8,                          
+            }} 
+            />
         </View>
       </View>
     </View>
@@ -100,7 +146,7 @@ const Home: React.FC = () => {
     </View>
 
     <FlatList
-      data={heros}
+      data={searchHero}
       keyExtractor={card => String(card.id)}
       renderItem={({ item }) => (
         <TouchableOpacity key={item.id} style={{
@@ -110,28 +156,28 @@ const Home: React.FC = () => {
           alignItems: 'center',
           padding: 18
         }}>
-          <Image style={{ width: 52, height: 52, borderRadius: 28, resizeMode: "cover" }} source={{ uri: item.thumbnail.path.concat('.',item.thumbnail.extension) }} />
+          <Image style={{ width: 52, height: 52, borderRadius: 28, resizeMode: "cover" }} source={{ uri: item.thumbnail.path.concat('.', item.thumbnail.extension) }} />
           <Text style={{ fontSize: 16, marginLeft: 16, flex: 1 }}>{item.name}</Text>
         </TouchableOpacity>
       )}
-      ListFooterComponent={() => {
-        if (!loadingMore) return null;
-        return (
-          <ActivityIndicator
-            style={{ marginTop: 10, marginBottom: 30 }}
-            size={24}
-            color="red"
-          />
-        );
-      }}
+      // ListFooterComponent={() => {
+      //   if (!loadingMore) return null;
+      //   return (
+      //     <ActivityIndicator
+      //       style={{ marginTop: 10, marginBottom: 30 }}
+      //       size={24}
+      //       color="red"
+      //     />
+      //   );
+      // }}
       ListEmptyComponent={() => {
         if (loading) return null;
         return (
           <Text
             style={{
-              marginHorizontal: 20,
+              marginTop: 16,
               textAlign: 'center',
-              fontSize: 12,
+              fontSize: 16,
               color: '#333',
             }}
           >
