@@ -1,6 +1,6 @@
 import { RouteProp, useRoute } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
-import { FlatList, Image, ImageBackground, Text, View } from 'react-native';
+import { FlatList, Image, Text, View } from 'react-native';
 import { ResultsDTO } from '../Home/types';
 import api from '../../services/api';
 import palette from '../../theme/palette';
@@ -38,7 +38,7 @@ const DetailHero: React.FC = () => {
         </View>
         <Image style={{ width: "100%", height: 300, resizeMode: "cover" }} source={{ uri: item.thumbnail.path.concat('.', item.thumbnail.extension) }} />
         <View style={{ backgroundColor: palette.primary, padding: 16 }}>
-          <Text style={{ fontSize: 18, flex: 1, color: palette.white, fontWeight: 'bold' }}>{item.name}</Text>
+          <Text style={{ fontSize: 18, color: palette.white, fontWeight: 'bold' }}>{item.name}</Text>
         </View>
         <View style={{ flex: 1, padding: 16 }}>
           <Text style={{
@@ -48,8 +48,56 @@ const DetailHero: React.FC = () => {
             fontSize: 16,
             textAlign: 'justify'
           }}>
-            {item.description.length> 0 ? item.description: 'Has No Description to Display'}
+            {item.description.length > 0 ? item.description : 'Has No Description to Display'}
           </Text>
+          <View style={{ marginTop: 16 }}>
+            <View style={{ backgroundColor: palette.primary, marginBottom: 12, padding: 8 }}>
+              <Text
+                style={{
+                  textAlign: 'center',
+                  fontSize: 18,
+                  color: palette.white,
+                  fontWeight: 'bold'
+                }}>
+                {`COMICS - ${item.comics.items.length}`}
+                </Text>
+
+            </View>
+            {item.comics.items.map((itemCard, i) => 
+            <Text key={i}
+              style={{lineHeight: 25, fontSize: 16, fontWeight: 'bold'}}
+            >
+              {itemCard.name}
+            </Text>
+            )}
+
+          </View>
+
+          <View style={{ marginTop: 16 }}>
+            <View style={{ backgroundColor: palette.primary, marginBottom: 12, padding: 8 }}>
+              <Text
+                style={{
+                  textAlign: 'center',
+                  fontSize: 18,
+                  color: palette.white,
+                  fontWeight: 'bold'
+                }}>
+                {`STORIES - ${item.stories.items.length}`}
+                </Text>
+
+            </View>
+            {item.stories.items.map((itemCard, i) => 
+            <Text key={i}
+              style={{lineHeight: 25, fontSize: 16, fontWeight: 'bold'}}
+            >
+              {itemCard.name}
+            </Text>
+            )}
+
+          </View>
+
+          {/* <Text>####STORIES#####3</Text>
+          {item.stories.items.map((itemCard, i) => <Text key={i}>{itemCard.name}</Text>)} */}
 
         </View>
       </View>
