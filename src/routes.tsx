@@ -2,7 +2,7 @@ import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import Home from './pages/Home';
-import SuperTrunfo from './pages/SuperTrunfo';
+import DetailHero from './pages/DetailHero';
 
 const AppRoutes = createStackNavigator();
 
@@ -19,7 +19,7 @@ const Routes = () => {
     }}
     >
       <AppRoutes.Screen name="Home" component={Home} initialParams={Home}/>
-      <AppRoutes.Screen name="SuperTrunfo" component={SuperTrunfo} />
+      <AppRoutes.Screen name="DetailHero" component={DetailHero} />
     </AppRoutes.Navigator>
   </NavigationContainer>)
 }
