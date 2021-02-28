@@ -9,7 +9,7 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   Keyboard,
-  ScrollView
+  ScrollView,
 } from 'react-native';
 import api from '../../services/api';
 import palette from '../../theme/palette';
@@ -25,7 +25,7 @@ const Home: React.FC = () => {
   //---Filtro
   const [search, setSearch] = useState('');
   //--- Paginação
-  const LIMIT = 2;
+  const LIMIT = 4;
   const [buttons, setButtons] = useState<PaginationHome[]>([]);
   const [total, setTotal] = useState(0);
   const [page, setPage] = useState(0);
@@ -262,43 +262,46 @@ const Home: React.FC = () => {
           style={{
             backgroundColor: palette.primary,
             width: 20,
-            height: 20,
+            height: 20,           
           }}>
         </TouchableOpacity>
-        <ScrollView
-          horizontal={true}
-          style={{
-            flexDirection: 'row',
-            marginBottom: 24,
-            marginTop: 18,
-            marginLeft: 40,
-            marginRight: 40,
-          }}>
+        {loading ? <ActivityIndicator color={palette.primary} size={36} /> :
+          <ScrollView
+            horizontal={true}
+            style={{
+              flexDirection: 'row',
+              marginBottom: 24,
+              marginTop: 18,
+              marginLeft: 40,
+              marginRight: 40,
+            }}>
 
-          {/* {buttons.slice(sliceInit, sliceFim).map((item, i) => ( */}
-          {buttons.map((item, i) => (
-            <TouchableOpacity
-              onPress={() => selectedPage(i)}
-              key={i}
-              style={{
-                backgroundColor: item.check ? palette.primary : palette.white,
-                width: 40,
-                height: 40,
-                alignItems: 'center',
-                justifyContent: 'center',
-                borderRadius: 20,
-                borderWidth: 1,
-                borderColor: palette.primary,
-                margin: 8,
-              }}
-            >
-              <Text style={{
-                color: item.check ? palette.white : palette.primary,
-                fontSize: 20,
-              }}>{item.offset}</Text>
-            </TouchableOpacity>
-          ))}
-        </ScrollView>
+            {/* {buttons.slice(sliceInit, sliceFim).map((item, i) => ( */}
+            {buttons.map((item, i) => (
+              <TouchableOpacity
+                onPress={() => selectedPage(i)}
+                key={i}
+                style={{
+                  backgroundColor: item.check ? palette.primary : palette.white,
+                  width: 40,
+                  height: 40,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  borderRadius: 20,
+                  borderWidth: 1,
+                  borderColor: palette.primary,
+                  margin: 8,
+                }}
+              >
+                <Text style={{
+                  color: item.check ? palette.white : palette.primary,
+                  fontSize: 20,
+                }}>{item.offset}</Text>
+              </TouchableOpacity>
+            ))}
+          </ScrollView>
+        }
+
 
         <TouchableOpacity
           onPress={() => nextPage()}
@@ -315,3 +318,4 @@ const Home: React.FC = () => {
 }
 
 export default Home;
+
