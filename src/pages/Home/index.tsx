@@ -264,55 +264,68 @@ const Home: React.FC = () => {
           onPress={() => backPage()}
           style={{
             backgroundColor: palette.primary,
-            width: 20,
-            height: 20,
+            width: 28,
+            height: 28,
+            alignItems: 'center',
+            justifyContent: 'center',
+            borderRadius: 14,
           }}>
+          <Text style={{
+            color: palette.white,
+            fontSize: 26,
+          }}>{`<`}</Text>
         </TouchableOpacity>
-        {loading ? <ActivityIndicator color={palette.primary} size={36} /> :
-          <ScrollView
-            horizontal={true}
-            style={{
-              flexDirection: 'row',
-              marginBottom: 24,
-              marginTop: 18,
-              marginLeft: 40,
-              marginRight: 40,
-            }}>
 
-            {/* {buttons.slice(sliceInit, sliceFim).map((item, i) => ( */}
-            {buttons.map((item, i) => (
-              <TouchableOpacity
-                onPress={() => selectedPage(i)}
-                key={i}
-                style={{
-                  backgroundColor: item.check ? palette.primary : palette.white,
-                  width: 40,
-                  height: 40,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  borderRadius: 20,
-                  borderWidth: 1,
-                  borderColor: palette.primary,
-                  margin: 8,
-                }}
-              >
-                <Text style={{
-                  color: item.check ? palette.white : palette.primary,
-                  fontSize: 20,
-                }}>{item.offset}</Text>
-              </TouchableOpacity>
-            ))}
-          </ScrollView>
-        }
+        <ScrollView
+          horizontal={true}
+          style={{
+            flexDirection: 'row',
+            marginBottom: 24,
+            marginTop: 18,
+            marginLeft: 40,
+            marginRight: 40,
+          }}>
 
+          {buttons.map((item, i) => (
+            <TouchableOpacity
+              onPress={() => selectedPage(i)}
+              key={i}
+              style={{
+                backgroundColor: item.check ? palette.primary : palette.white,
+                width: 40,
+                height: 40,
+                alignItems: 'center',
+                justifyContent: 'center',
+                borderRadius: 20,
+                borderWidth: 1,
+                borderColor: palette.primary,
+                margin: 8,
+              }}
+            >
+              <Text style={{
+                color: item.check ? palette.white : palette.primary,
+                fontSize: 20,
+              }}>{item.offset}</Text>
+            </TouchableOpacity>
+          ))}
+        </ScrollView>
 
         <TouchableOpacity
           onPress={() => nextPage()}
           style={{
             backgroundColor: palette.primary,
-            width: 20,
-            height: 20,
+            width: 28,
+            height: 28,
+            alignItems: 'center',
+            justifyContent: 'center',
+            borderRadius: 14,
           }}>
+          <Text style={{
+            color: palette.white,
+            fontSize: 26,
+          }}>
+            {`>`}
+          </Text>
         </TouchableOpacity>
       </View>
       <View style={{ height: 16, backgroundColor: palette.primary }} />
