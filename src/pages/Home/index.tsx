@@ -34,7 +34,9 @@ const Home: React.FC = () => {
   async function loadHeros(pageNumber: number) {
     try {
       setLoading(true);
-      const response = await api.get(`/characters?limit=${LIMIT}&offset=${pageNumber}`);
+      let offeset = ((pageNumber) * LIMIT);
+      const response = await api.get(`/characters?limit=${LIMIT}&offset=${offeset}`);
+
       const data = await response.data.data.results;
 
       setHeros(data);
@@ -58,9 +60,10 @@ const Home: React.FC = () => {
 
   useEffect(() => {
     async function firstLoad(pageNumber: number) {
+      let offeset = ((pageNumber) * LIMIT);
       try {
         setLoading(true);
-        const response = await api.get(`/characters?limit=${LIMIT}&offset=${pageNumber}`);
+        const response = await api.get(`/characters?limit=${LIMIT}&offset=${offeset}`);
         const data = await response.data.data.results;
 
         setHeros(data);
@@ -84,7 +87,7 @@ const Home: React.FC = () => {
       Keyboard.dismiss();
       setLoading(true);
       if (search) {
-        const response = await api.get(`/characters?name=${search}`);
+        const response = await api.get(`/characters?&nameStartsWith=${search}`);
         const data = await response.data.data.results;
         if (!!data) {
           setSearchHero(data);
@@ -262,7 +265,7 @@ const Home: React.FC = () => {
           style={{
             backgroundColor: palette.primary,
             width: 20,
-            height: 20,           
+            height: 20,
           }}>
         </TouchableOpacity>
         {loading ? <ActivityIndicator color={palette.primary} size={36} /> :
